@@ -2,12 +2,13 @@ class First < ActiveRecord::Migration
   def change
     create_table :champions do |t|
       t.string :name, null: false
+      t.string :title, null: false
       t.integer :riot_id
       t.timestamps
     end
 
     create_table :champion_base_stats do |t|
-      t.belongs_to :champions
+      t.belongs_to :champion
       t.decimal :attackrange
       t.decimal :mpperlevel
       t.decimal :mp

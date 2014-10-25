@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20141025220320) do
   enable_extension "plpgsql"
 
   create_table "champion_base_stats", force: true do |t|
-    t.integer "champions_id"
+    t.integer "champion_id"
     t.decimal "attackrange"
     t.decimal "mpperlevel"
     t.decimal "mp"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20141025220320) do
 
   create_table "champions", force: true do |t|
     t.string   "name",       null: false
+    t.string   "title",      null: false
     t.integer  "riot_id"
     t.datetime "created_at"
     t.datetime "updated_at"
