@@ -1,0 +1,14 @@
+h1() (LoL wurf) Imputed Champion Cost via base-stats
+
+table.table-hover.table-striped
+  thead
+    tr
+      th Champion
+      th() Base {{ @stat }}
+      th Calculated Cost
+  tbody
+    - @champions.each do |champ|
+      tr
+        td() {{ champ['name'] }}
+        td() {{ champ['stat'] }}
+        td() {{ champ['cost'] }}

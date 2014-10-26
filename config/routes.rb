@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'base_stat_cost_controller/calculate'
+  get 'base_stat_cost_controller/index'
+  root 'base_stat_cost_controller#index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
