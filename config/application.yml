@@ -1,0 +1,8 @@
+
+
+RIOT_API_KEY: foodoo
+api_calls:
+  base_url: https://na.api.pvp.net/api/lol/static-data/na
+  version: v1.2
+  all_champions: //
+  get_stats: /champion/%{champion_id}?champData=stats&api_key=#{ api_key }
