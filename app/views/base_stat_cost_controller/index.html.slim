@@ -4,11 +4,11 @@ table.table-hover.table-striped
   thead
     tr
       th Champion
-      th() Base {{ @stat }}
+      th() Base #{ @stat }
       th Calculated Cost
   tbody
     - @champions.each do |champ|
       tr
-        td() {{ champ['name'] }}
-        td() {{ champ['stat'] }}
-        td() {{ champ['cost'] }}
+        td() #{ champ[:name] }
+        td() #{ champ[:stat] }
+        td() #{ champ[:cost] }
