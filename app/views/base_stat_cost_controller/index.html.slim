@@ -1,10 +1,20 @@
 h1() (LoL wurf) Imputed Champion Cost via base-stats
-
 table.table-hover.table-striped
   thead
     tr
       th Champion
-      th() Base #{ @stat }
+      th
+        span Base Stat
+        .dropdown
+          button.btn.btn-default.dropdown-toggle#available_stats(data-toggle="dropdown")
+            | #{ @stat }
+            span.caret
+          ul.dropdown-menu(role="menu")
+            li.dropdown-header
+              | Choose Base Stat
+            - @available_stats.each do |it|
+              li
+                = link_to it, base_stat_cost_controller_index_path(stat: it)
       th Calculated Cost
   tbody
     - @champions.each do |champ|

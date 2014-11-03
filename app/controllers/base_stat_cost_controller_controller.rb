@@ -3,8 +3,9 @@ class BaseStatCostControllerController < ApplicationController
   include BaseStatCosts
 
   def index
-    @stat = 'attackdamage'
+    @stat = params[:stat] || 'attackdamage'
     @champions = Champion.all.map { |it| single_stat(it, @stat) }.sort_by { |it| it[:cost] }.reverse
+    @available_stats = BaseStatCosts::COSTS.keys
   end
 
   def calculate
