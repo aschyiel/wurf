@@ -10,6 +10,11 @@ namespace :wurf do
     end
   end
 
+  desc "Calculate the base-costs (depends on fetch_champions)."
+  task calculate_base_costs: :environment do
+    ChampionBaseStatCosts.recalculate_all
+  end
+
   private
 
   # GOTCHA: Don't go over 10 requests per 10 seconds (throttling).
@@ -56,7 +61,4 @@ namespace :wurf do
       armorperlevel: stats['armorperlevel']
     )
   end
-
-
-
 end

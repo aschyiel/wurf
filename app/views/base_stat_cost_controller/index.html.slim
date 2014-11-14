@@ -15,10 +15,12 @@ table.table-hover.table-striped
             - @available_stats.each do |it|
               li
                 = link_to it, base_stat_cost_controller_index_path(stat: it)
-      th Calculated Cost
+      th Selected Stat Cost
+      th Total Calculated Cost
   tbody
     - @champions.each do |champ|
       tr
         td() #{ champ[:name] }
         td() #{ champ[:stat] }
         td() #{ champ[:cost] }
+        td() #{ number_with_precision champ[:total], precision: 0 }

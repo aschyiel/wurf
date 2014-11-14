@@ -11,10 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141025220320) do
+ActiveRecord::Schema.define(version: 20141114045852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "champion_base_stat_costs", force: true do |t|
+    t.integer "champion_id"
+    t.decimal "total"
+    t.decimal "attackrange"
+    t.decimal "mpperlevel"
+    t.decimal "mp"
+    t.decimal "attackdamage"
+    t.decimal "hp"
+    t.decimal "hpperlevel"
+    t.decimal "attackdamageperlevel"
+    t.decimal "armor"
+    t.decimal "mpregenperlevel"
+    t.decimal "hpregen"
+    t.decimal "critperlevel"
+    t.decimal "spellblockperlevel"
+    t.decimal "mpregen"
+    t.decimal "attackspeedperlevel"
+    t.decimal "spellblock"
+    t.decimal "movespeed"
+    t.decimal "attackspeedoffset"
+    t.decimal "crit"
+    t.decimal "hpregenperlevel"
+    t.decimal "armorperlevel"
+  end
 
   create_table "champion_base_stats", force: true do |t|
     t.integer "champion_id"
