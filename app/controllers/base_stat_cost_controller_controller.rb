@@ -4,24 +4,31 @@ class BaseStatCostControllerController < ApplicationController
 
   def index
     @stat = params[:stat] || 'attackdamage'
-    @champions = Champion.all.map { |it| single_stat(it, @stat) }.sort_by { |it| it[:total] }.reverse
+
+    champions = Champion.all
+    champions_by_id = {}
+    champions.each { |it| champions_by_id[it.id.to_s] = it }
+
+    costs_by_id = {}
+    all_costs = ChampionBaseStatCosts.all
+    all_costs.each { |it| costs_by_id[it.champion_id.to_s] = it }
+
+    # TODO: check version.
+    @champions = ChampionBaseStats.all.map do |stats|
+      champion = champions_by_id[stats.champion_id.to_s]
+      costs = costs_by_id[stats.champion_id.to_s]
+      {
+        name: champion.name,
+        stat: stats[@stat],
+        cost: costs[@stat],
+        total: costs.total
+      }
+    end
+    @champions = @champions.sort_by { |it| it[:cost] }.reverse
+
     @available_stats = BaseStatCosts::COSTS.keys
   end
 
   def calculate
-  end
-
-  private
-
-  # Returns the calculated cost for a single character-stat on a champion.
-  def single_stat(champion, stat = 'attackdamage')
-    stats = ChampionBaseStats.find_by(champion_id: champion.id)
-    costs = ChampionBaseStatCosts.find_by(champion_id: champion.id)
-    {
-      name: champion.name,
-      stat: stats[stat],
-      cost: costs[stat],
-      total: costs.total
-    }
   end
 end

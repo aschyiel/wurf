@@ -1,26 +1,30 @@
-h1() (LoL wurf) Imputed Champion Cost via base-stats
-table.table-hover.table-striped
-  thead
-    tr
-      th Champion
-      th
-        span Base Stat
-        .dropdown
-          button.btn.btn-default.dropdown-toggle#available_stats(data-toggle="dropdown")
-            | #{ @stat }
-            span.caret
-          ul.dropdown-menu(role="menu")
-            li.dropdown-header
-              | Choose Base Stat
-            - @available_stats.each do |it|
-              li
-                = link_to it, base_stat_cost_controller_index_path(stat: it)
-      th Selected Stat Cost
-      th Total Calculated Cost
-  tbody
-    - @champions.each do |champ|
+.row: .col-md-8.col-md-offset-2
+
+  h1() (LoL wurf) Imputed Champion Cost via base-stats
+  br
+
+  .row: table.col-md-12.table-hover.table-striped.table-responsive
+    thead
       tr
-        td() #{ champ[:name] }
-        td() #{ champ[:stat] }
-        td() #{ champ[:cost] }
-        td() #{ number_with_precision champ[:total], precision: 0 }
+        th Champion
+        th
+          span Base Stat
+          .dropdown
+            button.btn.btn-default.dropdown-toggle#available_stats(data-toggle="dropdown")
+              | #{ @stat }
+              span.caret
+            ul.dropdown-menu(role="menu")
+              li.dropdown-header
+                | Choose Base Stat
+              - @available_stats.each do |it|
+                li
+                  = link_to it, base_stat_cost_controller_index_path(stat: it)
+        th Selected Stat Cost
+        th Total Calculated Cost
+    tbody
+      - @champions.each do |champ|
+        tr
+          td() #{ champ[:name] }
+          td() #{ champ[:stat] }
+          td() #{ champ[:cost] }
+          td() #{ number_with_precision champ[:total], precision: 0 }

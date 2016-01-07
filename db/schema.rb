@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20141114045852) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "champion_base_stat_costs", force: true do |t|
+  create_table "champion_base_stat_costs", force: :cascade do |t|
     t.integer "champion_id"
     t.decimal "total"
     t.decimal "attackrange"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20141114045852) do
     t.decimal "armorperlevel"
   end
 
-  create_table "champion_base_stats", force: true do |t|
+  create_table "champion_base_stats", force: :cascade do |t|
     t.integer "champion_id"
     t.decimal "attackrange"
     t.decimal "mpperlevel"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20141114045852) do
     t.decimal "armorperlevel"
   end
 
-  create_table "champions", force: true do |t|
+  create_table "champions", force: :cascade do |t|
     t.string   "name",       null: false
     t.string   "title",      null: false
     t.integer  "riot_id"
