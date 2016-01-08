@@ -56,7 +56,8 @@ CREATE TABLE champion_base_stat_costs (
     attackspeedoffset numeric,
     crit numeric,
     hpregenperlevel numeric,
-    armorperlevel numeric
+    armorperlevel numeric,
+    total_before_scaling numeric DEFAULT 0 NOT NULL
 );
 
 
@@ -231,4 +232,6 @@ SET search_path TO "$user",public;
 INSERT INTO schema_migrations (version) VALUES ('20141025220320');
 
 INSERT INTO schema_migrations (version) VALUES ('20141114045852');
+
+INSERT INTO schema_migrations (version) VALUES ('20160107235801');
 

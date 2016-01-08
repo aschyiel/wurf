@@ -10,6 +10,7 @@ class ChampionBaseStatCosts < ActiveRecord::Base
       costs[k] = (BaseStatCosts::COSTS[k] * stats[k]).to_f
     end
     costs.total = BaseStatCosts::COSTS.keys.map { |k| costs[k] }.sum
+    costs.total_before_scaling = BaseStatCosts::COSTS.keys.reject { |k| k =~ /perlevel/ }.map { |k| costs[k] }.sum
     costs.save
   end
 

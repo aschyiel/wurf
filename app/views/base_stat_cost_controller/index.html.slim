@@ -1,30 +1,76 @@
-.row: .col-md-8.col-md-offset-2
+- is_single_stat = @stat != BaseStatCostControllerController::ALL_STATS && @stat != BaseStatCostControllerController::ALL_STATS_BEFORE_SCALING
+- is_all_stats = @stat == BaseStatCostControllerController::ALL_STATS
+
+- keys = BaseStatCosts::COSTS.keys
+- keys = keys.reject { |k| k =~ /perlevel/ } if @stat == BaseStatCostControllerController::ALL_STATS_BEFORE_SCALING
+
+.row: div(class="#{ is_all_stats ? 'col-xs-12 col-xs-offset-1' : 'col-md-8 col-md-offset-2' }")
 
   h1() (LoL wurf) Imputed Champion Cost via base-stats
   br
 
-  .row: table.col-md-12.table-hover.table-striped.table-responsive
+  h2
+    | Select Stat
+    '
+    .dropdown
+      button.btn.btn-default.dropdown-toggle#available_stats(data-toggle="dropdown")
+        | #{ @stat }
+        span.caret
+      ul.dropdown-menu(role="menu")
+        li.dropdown-header
+          | Choose Base Stat
+        - @available_stats.each do |it|
+          li = link_to BaseStatCosts::COLUMN_HEADERS[it] || it, base_stat_cost_controller_index_path(stat: it)
+  br
+  br
+
+  .row: table#main-table.col-md-12.table-hover.table-striped.table-responsive.tablesorter
     thead
       tr
-        th Champion
-        th
-          span Base Stat
-          .dropdown
-            button.btn.btn-default.dropdown-toggle#available_stats(data-toggle="dropdown")
-              | #{ @stat }
-              span.caret
-            ul.dropdown-menu(role="menu")
-              li.dropdown-header
-                | Choose Base Stat
-              - @available_stats.each do |it|
-                li
-                  = link_to it, base_stat_cost_controller_index_path(stat: it)
-        th Selected Stat Cost
-        th Total Calculated Cost
+        th.ranking-column.text-right Ranking
+        th.name-column Champion
+        - if is_single_stat
+          th.text-right = BaseStatCosts::COLUMN_HEADERS[@stat]
+        - else
+          - keys.each do |k|
+            th.text-right = BaseStatCosts::COLUMN_HEADERS[k]
+        th.text-right Gold Value
     tbody
+      - ranking = 0
       - @champions.each do |champ|
+        - gold = is_single_stat ? champ[:cost] : @stat == BaseStatCostControllerController::ALL_STATS_BEFORE_SCALING ? champ[:total_before_scaling] : champ[:total]
+        - ranking += 1
         tr
-          td() #{ champ[:name] }
-          td() #{ champ[:stat] }
-          td() #{ champ[:cost] }
-          td() #{ number_with_precision champ[:total], precision: 0 }
+          td.text-right.ranking-column(data-value="#{ ranking }")
+            | #
+            '
+            = ranking
+          td.name-column = champ[:name]
+          - if is_single_stat
+            td.text-right = number_with_precision champ[:stat], precision: 2
+          - else
+            - keys.each do |k|
+              td.text-right =  number_with_precision champ[k], precision: 2
+          td.text-right(data-value="#{ gold }") #{ number_to_currency(gold, precision: 0, unit: 'G', format: '%n %u') }
+
+
+- gold_value_column_number = is_single_stat ? 3 : keys.size + 2
+javascript:
+  window.wurf = {
+    'GOLD_VALUE_COLUMN_NUMBER': #{ gold_value_column_number }
+  }
+
+coffee:
+  $(->
+    $.tablesorter.addParser({
+      id: 'wurfCustomValueParser'
+      is: -> false
+      format: (s, table, cell) -> $(cell).data('value') || 0
+      type: 'numeric'
+    })
+
+    tablesorterConf = { headers: {} }
+    tablesorterConf.headers[0] = { sorter: 'wurfCustomValueParser' }
+    tablesorterConf.headers[Number(window.wurf.GOLD_VALUE_COLUMN_NUMBER)] = { sorter: 'wurfCustomValueParser' }
+    $('#main-table').tablesorter(tablesorterConf)
+  )

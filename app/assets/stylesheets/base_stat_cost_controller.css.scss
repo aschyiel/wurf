@@ -1,3 +1,17 @@
 // Place all the styles related to the BaseStatCostController controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#main-table th,
+#main-table td {
+  padding-right: 4px;
+}
+#main-table th.ranking-column,
+#main-table td.ranking-column {
+  padding-right: 12px;
+}
+
+#main-table th.name-column,
+#main-table td.name-column {
+  padding-right: 12px;
+}
